@@ -5,6 +5,8 @@ import Timber from "../utils/timber.js";
 const trie = new Timber();
 
 trie.insert("Thomas");
+trie.insert("Voldemort");
+trie.insert("Wolfeschlegelsteinhausenbergerdorff");
 for(let i = 0; i < 1000000; i++) {
     const randomName = faker.name.firstName();
     trie.insert(randomName);
@@ -12,6 +14,12 @@ for(let i = 0; i < 1000000; i++) {
 
 Deno.test("Search", () => {
     assertEquals(trie.search("Thomas"), "Thomas");
+    assertEquals(trie.search("asdncla"), "Not found");
+})
+
+Deno.test("Suggest", () => {
+    assertEquals(trie.search("Wolfesch"), ["Wolfeschlegelsteinhausenbergerdorff"]);
+    assertEquals(trie.search("Vold"), ["Voldemort"]);
 })
 
 Deno.test("Deletion", () => {

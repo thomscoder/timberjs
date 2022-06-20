@@ -10,26 +10,25 @@ Deno.bench("Insertion", { group: "Inserting" }, () => {
         trie.insert(randomName);
     }
     trie.insert("Wolfeschlegelsteinhausenbergerdorff");
+    trie.insert("Voldemort");
+    trie.insert("Dumbledore");
 })
 
-Deno.bench("Searching Simon", { group: "Searching", baseline: true }, () => {
+Deno.bench("Searching", { group: "Searching", baseline: true }, () => {
     trie.search("Simon");
-});
-
-Deno.bench("Searching Wolfeschlegelsteinhausenbergerdorff", { group: "Searching"}, () => {
     trie.search("Wolfeschlegelsteinhausenbergerdorff"); // Hubert Blaine Wolfe­schlegel­stein­hausen­berger­dorff Sr.
+    trie.search("Dumbledore");
 });
 
-Deno.bench("Searching Anna", { group: "Searching"}, () => {
-    trie.search("Anna");
-});
+Deno.bench("Suggesting names", { group: "Suggesting names", baseline: true},  () => {
+    trie.search("Vold");
+    trie.search("Wolfesch");
+    trie.search("A");
+})
 
 // assuming there are both Simon and Thomas in the 1mln names list lol
-
-Deno.bench("Deleting Simon", { group: "Deleting", baseline: true }, () => {
+Deno.bench("Deleting", { group: "Deleting", baseline: true }, () => {
     trie.deleteString("Simon");
-});
-
-Deno.bench("Deleting Thomas", { group: "Deleting" }, () => { 
     trie.deleteString("Thomas");
+    trie.deleteString("Voldemort");
 });

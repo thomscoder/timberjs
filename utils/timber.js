@@ -6,11 +6,6 @@ export default class Timber {
         this.#root = null;
     }
 
-    #getIndex(char) {
-        const index = char.charCodeAt(0) - 'a'.charCodeAt(0);
-        return index;
-    }
-
     insert(str) {
         if(this.#root === null) {
             this.#root = new TimberNode();
@@ -19,11 +14,10 @@ export default class Timber {
         let currentNode = this.#root;
         for(let i = 0, len = str.length; i < len; ++i) {
             const char = str[i];
-            const index = this.#getIndex(char);
-            if(!currentNode.children.has(index)) {
-                currentNode.children.set(index, new TimberNode());
+            if(!currentNode.children.has(char)) {
+                currentNode.children.set(char, new TimberNode(char));
             }
-            currentNode = currentNode.children.get(index);
+            currentNode = currentNode.children.get(char);
         }
         currentNode.isEndOfTheWord=true;
     }
@@ -33,11 +27,16 @@ export default class Timber {
         let currentNode = this.#root;
         for (let i = 0, len = str.length; i < len; ++i) {
             const char = str[i];
-            const index = this.#getIndex(char);
-            currentNode = currentNode?.children.get(index);
+            currentNode = currentNode?.children.get(char);
             if (currentNode === null) break;
         }
-        return currentNode?.isEndOfTheWord ? str : "Not found";
+        if (currentNode?.isEndOfTheWord) {
+            return str;
+        }
+
+        const suggestions = this.#findAllWords(str);
+
+        return suggestions.length > 0 ? suggestions : "Not found";
     }
 
     deleteString(str) {
@@ -47,8 +46,7 @@ export default class Timber {
         let currentNode = this.#root;
         for (let i = 0, len = str.length; i < len; ++i) {
             const char = str[i];
-            const index = this.#getIndex(char);
-            currentNode = currentNode.children.get(index);
+            currentNode = currentNode.children.get(char);
             if (currentNode === null) {
                 return;
             }
@@ -58,6 +56,28 @@ export default class Timber {
         }
         if (currentNode.children.size === 0) {
             return;
+        }
+    }
+
+    #findAllWords(str) {
+        if (this.#root === null) return "Trie is empty";
+        let currentNode = this.#root;
+        const result = [];
+        for (let i = 0, len = str.length; i < len; ++i) {
+            const char = str[i];
+            if (!currentNode) return result;
+            currentNode = currentNode.children.get(char);
+        }
+        this.#helper(currentNode, result, str.substring(0, str.length));
+        return result;
+    }
+
+    #helper(currentNode, result, str) {
+        if (currentNode.isEndOfTheWord) {
+            return result.push(str);
+        }
+        for (const [key, value] of currentNode.children) {
+            this.#helper(value, result, str + key);
         }
     }
 }

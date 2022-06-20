@@ -16,17 +16,25 @@ const main = async () => {
     const timber = new Timber();
     for (let i = 0; i < Number(numberOfElements); i++) {
         const name = faker.name.firstName();
-        logger.warn("Inserting name %s...", name);
+        logger.log("Inserting name %s...", name);
         timber.insert(name);
     }
+    logger.warn("Populated database with %s elements...", numberOfElements);
 
-    logger.line("Find the name");
+
+    logger.line();
+    logger.log("Search name");
     const { value: nameToSearch } = await readLines(Deno.stdin).next();
     const str = capitalize(nameToSearch);
     const result = timber.search(str);
-    
+
     logger.line();
-    logger.info(result);
+    if (Array.isArray(result)) {
+        logger.info("Didn't found the name %s!\nSuggestions:", str);
+        result.forEach(name => logger.warn("%s", name));
+    } else {
+        logger.info("Found the name %s, found %d names that start with %s", str, result.length, str);
+    }
 }
 
 main();
