@@ -1,6 +1,7 @@
 import { assertEquals } from "https://deno.land/std@0.144.0/testing/asserts.ts";
 import { faker } from 'https://cdn.skypack.dev/@faker-js/faker';
 import Timber from "../utils/timber.js";
+import corrector from "../utils/corrector.js";
 
 const trie = new Timber();
 
@@ -25,4 +26,9 @@ Deno.test("Suggest", () => {
 Deno.test("Deletion", () => {
     trie.deleteString("Thomas");
     assertEquals(trie.search("Thomas"), "Not found");
+})
+
+Deno.test("Corrector", () => {
+    assertEquals(corrector("horse", "ros"), 3);
+    assertEquals(corrector("jrok", "trek"), 2);
 })

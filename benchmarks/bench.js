@@ -1,4 +1,5 @@
 import Timber from "../utils/timber.js";
+import corrector from "../utils/corrector.js";
 import { faker } from 'https://cdn.skypack.dev/@faker-js/faker';
 
 
@@ -32,3 +33,7 @@ Deno.bench("Deleting", { group: "Deleting", baseline: true }, () => {
     trie.deleteString("Thomas");
     trie.deleteString("Voldemort");
 });
+
+Deno.bench("Corrector", { group: "Corrector", baseline: true }, () => {
+    corrector("Voldemort", "Vdelmort");
+})
