@@ -6,7 +6,7 @@ import { faker } from 'https://cdn.skypack.dev/@faker-js/faker';
 const trie = new Timber();
 
 Deno.bench("Insertion", { group: "Inserting" }, () => {
-    for(let i = 0; i < 1000000; i++) {
+    for(let i = 0; i < 10; i++) {
         const randomName = faker.name.firstName();
         trie.insert(randomName);
     }

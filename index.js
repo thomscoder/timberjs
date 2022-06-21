@@ -30,10 +30,10 @@ const main = async () => {
 
     logger.line();
     if (Array.isArray(result)) {
-        logger.info("Didn't found the name %s!\nSuggestions:", str);
+        logger.info("Didn't found the name %s!\nFound %d similar name(s) to %s\nSuggestions:", str, result.length, str);
         result.forEach(name => logger.warn("%s", name));
     } else {
-        logger.info("Found the name %s, found %d names that start with %s", str, result.length, str);
+        logger.info("Found the name %s", str);
     }
 }
 

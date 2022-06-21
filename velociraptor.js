@@ -2,7 +2,7 @@ export default {
   scripts: {
     start: {
         desc: "Run",
-        cmd: "deno run index.js",
+        cmd: "deno run --allow-read --allow-write index.js",
     }, // start
 
     test: {

@@ -1,15 +1,22 @@
 import { TimberNode } from "./node.js"
+import corrector from "./corrector.js"
 
 export default class Timber {
     #root;
+    #arr;
+    #MAX;
     constructor() {
         this.#root = null;
+        this.#arr = [];
+        this.#MAX = 2;
     }
 
     insert(str) {
         if(this.#root === null) {
             this.#root = new TimberNode();
         }
+
+        this.#arr.push(str);
 
         let currentNode = this.#root;
         for(let i = 0, len = str.length; i < len; ++i) {
@@ -33,10 +40,11 @@ export default class Timber {
         if (currentNode?.isEndOfTheWord) {
             return str;
         }
-
+        
         const suggestions = this.#findAllWords(str);
-
-        return suggestions.length > 0 ? suggestions : "Not found";
+        let corrector = str.length > 1 ? this.#corrector(str) : [];
+        const finalResult =  suggestions.concat(corrector) 
+        return finalResult.length > 0 ? finalResult : "Not found";
     }
 
     deleteString(str) {
@@ -79,5 +87,15 @@ export default class Timber {
         for (const [key, value] of currentNode.children) {
             this.#helper(value, result, str + key);
         }
+    }
+
+    #corrector(str) {
+        const result = [];
+        for (let i = 0, len = this.#arr.length; i < len; ++i) {
+            const word = this.#arr[i];
+            const distance = corrector(str, word);
+            if (distance <= this.#MAX) result.push(word);
+        }
+        return result;
     }
 }
