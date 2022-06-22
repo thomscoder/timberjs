@@ -44,7 +44,7 @@ export default class Timber {
         const suggestions = this.#findAllWords(str);
         let corrector = str.length > 1 ? this.#corrector(str) : [];
         const finalResult =  suggestions.concat(corrector) 
-        return finalResult.length > 0 ? finalResult : "Not found";
+        return suggestions.length > 0 ? suggestions : finalResult.length > 0 ? finalResult : "Not found";
     }
 
     deleteString(str) {
