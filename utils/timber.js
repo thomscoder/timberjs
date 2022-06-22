@@ -1,5 +1,6 @@
 import { TimberNode } from "./node.js"
-import corrector from "./corrector.js"
+import corrector from "./corrector.js";
+import { MAX_TOLERANCE } from "./tolerance.js";
 
 export default class Timber {
     #root;
@@ -8,7 +9,7 @@ export default class Timber {
     constructor() {
         this.#root = null;
         this.#arr = [];
-        this.#MAX = 2;
+        this.#MAX = MAX_TOLERANCE;
     }
 
     insert(str) {
@@ -42,9 +43,8 @@ export default class Timber {
         }
         
         const suggestions = this.#findAllWords(str);
-        let corrector = str.length > 1 ? this.#corrector(str) : [];
-        const finalResult =  suggestions.concat(corrector) 
-        return suggestions.length > 0 ? suggestions : finalResult.length > 0 ? finalResult : "Not found";
+        const corrector = str.length > 1 && suggestions.length === 0 ? this.#corrector(str) : suggestions;
+        return corrector.length > 0 ? corrector : [];
     }
 
     deleteString(str) {

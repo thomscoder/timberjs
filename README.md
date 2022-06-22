@@ -9,4 +9,8 @@ inspired by <a href="https://github.com/nearform/lyra">@nearform/lyra</a>.
 
 – [x] typo tolerance (check typo tolerance branch - I'm still studying the algorithm and its optimizations)
 
+– [x] crashes in searching.
+
+– [x] duplicated names in suggestions
+
 <img src="https://i.ibb.co/8mj3X5X/Schermata-2022-06-21-alle-21-56-15.png" alt="typo tolerance screenshot" border="0">

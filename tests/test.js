@@ -15,7 +15,7 @@ for(let i = 0; i < 1000000; i++) {
 
 Deno.test("Search", () => {
     assertEquals(trie.search("Thomas"), "Thomas");
-    assertEquals(trie.search("asdncla"), "Not found");
+    assertEquals(trie.search("asdncla"), []);
 })
 
 Deno.test("Suggest", () => {
@@ -30,6 +30,6 @@ Deno.test("Deletion", () => {
 })
 
 Deno.test("Corrector", () => {
-    assertEquals(corrector("horse", "ros"), 3);
+    assertEquals(corrector("horse", "rose"), 2);
     assertEquals(corrector("jrok", "trek"), 2);
 })

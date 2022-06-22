@@ -1,4 +1,5 @@
 import { buildGrid } from './grid.js'
+import { MAX_TOLERANCE } from './tolerance.js'
 
 const corrector = (firstString, secondString) => {
 
@@ -8,6 +9,7 @@ const corrector = (firstString, secondString) => {
 
     for (let i = 1; i < firstStringLen + 1; ++i) {
         for (let j = 1; j < secondStringLen + 1; ++j) {
+            //if (grid[firstStringLen][secondStringLen] > MAX_TOLERANCE) return grid[firstStringLen][secondStringLen];
             if (firstString[i - 1] === secondString[j - 1]) {
                 grid[i][j] = grid[i - 1][j - 1];
             } else {
